@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>untitled</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.24.1" />
+	
+
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32" />
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16" />
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}" />
+	
+	<script type="text/javascript">
+	
+		$( document ).ready(function(){
+			$( "#CameraButton" ).click(function(){
+				var jqxhr = $.getJSON( "{{ url_for('apiTakePicture') }}", function( data ){
+					console.log( "Success" );
+				}).done(function( data ){
+					filename = '/static/photos/' + data.Filename;                       
+					$ ("#TakenPicture").attr('src', filename);
+				}).fail(function(){
+				}).always(function(){		
+				});
+			});
+		});
+	
+	</script>
+	
+</head>
+<body>
+	<div class="pageheading">Kite Cam<span class="pagename">{{ Title }}</span></div>
+	<ul class="primarynavigation">
+		<li><a href="{{ url_for('takePicture') }}">Take Picture</a></li>
+		<li><a href="{{ url_for('listPhotos') }}">Show Pictures</a></li>
+	</ul>
+	
+		
+	<div class="imageContainer">
+		<img id="TakenPicture" src="/static/photos/image0001.jpg"/>
+
+		<div class="cameraButtonOverlay">
+			<div id="CameraButton">
+				<div id="CameraButtonShape"></div>
+				<div id="CameraButtonText"><div>Take</div><div>Picture</div></div>
+			</div>
+		</div>
+	</div>
+		
+</body>
+</html>

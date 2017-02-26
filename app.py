@@ -18,7 +18,13 @@ app = Flask(__name__)
 
 
 def getHighestFileNumber():
-	return 0
+	count = 0
+	photosPath = os.path.join(app.root_path, 'static/photos/')
+	
+	for filename in os.listdir(photosPath):
+		count = count + 1
+
+	return count
 
 
 
@@ -61,7 +67,9 @@ def apiSettings():
 	# Expect 
 	return 0
 
-
+@app.route("/countFiles")
+def countFiles():
+	return "the number of files is %d" % getHighestFileNumber()
 
 
 @app.route("/recordvideo")
